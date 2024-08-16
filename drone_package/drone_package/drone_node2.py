@@ -165,17 +165,17 @@ class DroneNode2(Node):
         print("Mission started")
         print("Start path planning")
         self.start_path_planning()  # path planning start after takeoff
-        while True:
-            print(f"Altitude: {self.vehicle.location.global_relative_frame.alt}")
-            if self.vehicle.location.global_relative_frame.alt >= h * 0.8:
-                print("Reached target altitude!!!!!!!!!!!!!!!!!!!!")
-                break
-            time.sleep(1)
+        # while True:
+        #     print(f"Altitude: {self.vehicle.location.global_relative_frame.alt}")
+        #     if self.vehicle.location.global_relative_frame.alt >= h * 0.8:
+        #         print("Reached target altitude!!!!!!!!!!!!!!!!!!!!")
+        #         break
+        #     time.sleep(1)
 
         self.vehicle.mode = VehicleMode("GUIDED")
-        time.sleep(0.1)
-        print("Start path planning")
-        self.start_path_planning()  # path planning start after takeoff
+        # time.sleep(0.1)
+        # print("Start path planning")
+        # self.start_path_planning()  # path planning start after takeoff
 
     # takeoff function callback
     def takeoff_callback(self, request, response):
