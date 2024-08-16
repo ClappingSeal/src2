@@ -171,6 +171,7 @@ class DroneNode2(Node):
 
         self.vehicle.mode = VehicleMode("GUIDED")
         time.sleep(0.1)
+        print("Start path planning")
         self.start_path_planning()  # path planning start after takeoff
 
     # takeoff function callback
