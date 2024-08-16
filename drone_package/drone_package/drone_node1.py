@@ -115,7 +115,7 @@ class DroneNode1(Node):
         target_location = LocationGlobalRelative(target_lat, target_lon, target_alt)
         self.vehicle.groundspeed = speed
         self.vehicle.simple_goto(target_location)
-        print(f"Moving to: Lat: {target_lat}, Lon: {target_lon}, Alt: {target_alt} at {speed} m/s")
+        print("Moving to : ", x, y, z)
 
     # Main Function
     def path_planning(self):
