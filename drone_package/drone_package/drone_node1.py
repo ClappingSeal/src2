@@ -65,6 +65,7 @@ class DroneNode1(Node):
         self.position.y = location.lon
         self.position.z = location.alt
         self.publisher.publish(self.position)
+        print('a')
 
     # for Subscriber Node
     def subscribe_position(self, msg):
