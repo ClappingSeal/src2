@@ -65,7 +65,6 @@ class DroneNode1(Node):
         self.position.y = location.lon
         self.position.z = location.alt
         self.publisher.publish(self.position)
-        print('a')
 
     # for Subscriber Node
     def subscribe_position(self, msg):
@@ -172,6 +171,7 @@ class DroneNode1(Node):
 
         self.vehicle.mode = VehicleMode("GUIDED")
         time.sleep(0.1)
+        print("Start path planning")
         self.start_path_planning()  # path planning start after takeoff
 
     # takeoff function callback
