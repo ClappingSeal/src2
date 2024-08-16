@@ -135,6 +135,7 @@ class DroneNode2(Node):
         else:
             # path planning algorithm here
             self.goto(self.goal_position[0], self.goal_position[1], self.goal_position[2])
+            print(self.goal_position)
 
     # takeoff function
     def takeoff(self, h):
