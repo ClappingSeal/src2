@@ -56,7 +56,7 @@ class DroneNode2(Node):
         self.position = POS()  # ego drone pos
         self.other_drones_positions = {}  # other drone pos
         self.goal_position = np.array([goal_x, goal_y, goal_z])  # value input from sys
-        self.landing_threshold = 2.0
+        self.landing_threshold = 1.0
 
     # for Publisher Node
     def publish_position(self):
@@ -165,7 +165,7 @@ class DroneNode2(Node):
             0, 0, 0, 0, 0, 0, 0, 0)
         time.sleep(2)
         print("Mission started")
-        
+
         while True:
             print(f"Altitude: {self.vehicle.location.global_relative_frame.alt}")
             if self.vehicle.location.global_relative_frame.alt >= h * 0.8:
