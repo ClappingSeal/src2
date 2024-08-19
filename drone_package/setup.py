@@ -22,6 +22,7 @@ setup(
         'console_scripts': [
             'drone_node1 = drone_package.drone_node1:main',
             'drone_node2 = drone_package.drone_node2:main',
+            'drone_node1_apf_td3_comp = drone_package.drone_node1_apf_td3_comp:main',
             'land_client1 = drone_package.land_client1:main',
             'land_client2 = drone_package.land_client2:main',
             'takeoff_client1 = drone_package.takeoff_client1:main',
