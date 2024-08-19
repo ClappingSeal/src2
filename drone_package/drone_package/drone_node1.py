@@ -12,6 +12,7 @@ from msgs.msg import POS
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy
 from msgs.srv import TAKEOFF, LAND
 from std_msgs.msg import Float64MultiArray
+from APF_Settings import APFEnvironment
 
 logging.getLogger('dronekit').setLevel(logging.CRITICAL)
 
@@ -55,7 +56,7 @@ class DroneNode1(Node):
         self.position = POS()  # ego drone pos
         self.other_drones_positions = {}  # other drone pos
         self.goal_position = np.array([goal_x, goal_y, goal_z])  # value input from sys
-        self.landing_threshold = 2.0
+        self.landing_threshold = 1.0
 
     # for Publisher Node
     def publish_position(self):
@@ -117,7 +118,7 @@ class DroneNode1(Node):
         self.vehicle.simple_goto(target_location)
         print("Moving to : ", x, y, z)
 
-    # Main Function
+    # Main Function (APF)
     def path_planning(self):
         # check distance for landing
         current_position = self.calculate_position()
@@ -133,8 +134,10 @@ class DroneNode1(Node):
             print("Goal reached. Initiating landing sequence.")
             self.land()
         else:
-            # path planning algorithm here
-            self.goto(self.goal_position[0], self.goal_position[1], self.goal_position[2])
+            env = APFEnvironment(current_position)
+            next_position = current_position + np.array(
+                env.apf(goal=self.goal_position, obs_pos=self.other_drones_positions))
+            self.goto(next_position[0], next_position[1], next_position[2])
 
     # takeoff function
     def takeoff(self, h):
