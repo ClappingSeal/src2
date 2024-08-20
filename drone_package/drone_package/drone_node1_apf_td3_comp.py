@@ -60,9 +60,9 @@ class DroneNode1(Node):
         self.goal_position = np.array([goal_x, goal_y, goal_z])  # value input from sys
         self.landing_threshold = 1.0
 
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        model_path = os.path.join(current_dir, 'td3_comp_robot.zip')
+        model_path = '/home/qwer/ros2_study/src2/drone_package/drone_package/td3_comp_robot.zip'
         self.model = TD3.load(model_path)
+
 
     # for Publisher Node
     def publish_position(self):
