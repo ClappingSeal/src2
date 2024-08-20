@@ -59,6 +59,7 @@ class DroneNode1(Node):
         self.other_drones_positions = {}  # other drone pos
         self.goal_position = np.array([goal_x, goal_y, goal_z])  # value input from sys
         self.landing_threshold = 1.0
+        self.force = 50
 
         model_path = '/home/qwer/ros2_study/src2/drone_package/drone_package/td3_comp_robot.zip'
         self.model = TD3.load(model_path)
@@ -160,7 +161,7 @@ class DroneNode1(Node):
                 b = b / np.linalg.norm(b) * 1
             b = env.apf_inverse_rotate(goal=self.goal_position, obs_pos=self.other_drones_positions, b_vector=b)
             next_position = current_position + np.array(
-                env.apf_drl(goal=self.goal_position, obs_pos=self.other_drones_positions, a=a, b=b))
+                env.apf_drl(goal=self.goal_position, obs_pos=self.other_drones_positions, a=a, b=b)) * self.force
 
             self.goto(next_position[0], next_position[1], next_position[2])
 
