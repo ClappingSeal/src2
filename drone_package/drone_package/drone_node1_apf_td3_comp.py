@@ -7,6 +7,7 @@ import time
 import numpy as np
 import logging
 from stable_baselines3 import PPO, TD3
+import os
 
 # Definition Library
 from msgs.msg import POS
@@ -58,6 +59,10 @@ class DroneNode1(Node):
         self.other_drones_positions = {}  # other drone pos
         self.goal_position = np.array([goal_x, goal_y, goal_z])  # value input from sys
         self.landing_threshold = 1.0
+
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        model_path = os.path.join(current_dir, 'td3_comp_robot.zip')
+        self.model = TD3.load(model_path)
         self.model = TD3.load("td3_comp_robot.zip")
 
     # for Publisher Node
