@@ -134,8 +134,8 @@ class DroneNode1(Node):
             print("Goal reached. Initiating landing sequence.")
             self.land()
         else:
-            env = APFEnvironment(current_position)
-            next_position = current_position + np.array(
+            env = APFEnvironment(self.calculate_position())
+            next_position = self.calculate_position() + np.array(
                 env.apf(goal=self.goal_position, obs_pos=self.other_drones_positions))
             self.goto(next_position[0], next_position[1], next_position[2])
 
