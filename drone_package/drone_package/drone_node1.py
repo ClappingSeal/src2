@@ -142,6 +142,10 @@ class DroneNode1(Node):
 
     # takeoff function
     def takeoff(self, h):
+        self.path_planning_timer = self.create_timer(self.timer_period, self.path_planning)
+            print("Path planning started")
+
+        
         self.vehicle.mode = VehicleMode("STABILIZE")
         time.sleep(0.5)
         cmds = self.vehicle.commands
