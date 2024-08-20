@@ -138,17 +138,9 @@ class DroneNode1(Node):
             next_position = current_position + np.array(
                 env.apf(goal=self.goal_position, obs_pos=self.other_drones_positions))
             self.goto(next_position[0], next_position[1], next_position[2])
-            print(np.array(env.apf(goal=self.goal_position, obs_pos=self.other_drones_positions)))
 
     # takeoff function
-    def takeoff(self, h):
-        print('start')
-        self.path_planning_timer = self.create_timer(self.timer_period, self.path_planning)
-        while True:
-            print('a')
-        
-
-        
+    def takeoff(self, h):        
         self.vehicle.mode = VehicleMode("STABILIZE")
         time.sleep(0.5)
         cmds = self.vehicle.commands
