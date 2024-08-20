@@ -63,7 +63,6 @@ class DroneNode1(Node):
         current_dir = os.path.dirname(os.path.abspath(__file__))
         model_path = os.path.join(current_dir, 'td3_comp_robot.zip')
         self.model = TD3.load(model_path)
-        self.model = TD3.load("td3_comp_robot.zip")
 
     # for Publisher Node
     def publish_position(self):
