@@ -199,7 +199,3 @@ class APFEnvironment:
 # env = APFEnvironment([1, 1, 10])
 # print(env.apf([10, 0, 8], [[40, 1, 12], [10, 20, 14]]))
 # print(env.apf_rev_rotate([10, 0, 8], [[40, 1, 12], [10, 20, 14]]))
-
-env = APFEnvironment(current_position)
-next_position = current_postion + np.array(env.apf(self.goal_position, self.other_drones_positions))
-self.goto(next_position[0], next_position[1], next_position[2])
