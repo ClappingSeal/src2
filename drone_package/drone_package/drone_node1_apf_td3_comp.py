@@ -13,7 +13,7 @@ from msgs.msg import POS
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy
 from msgs.srv import TAKEOFF, LAND
 from std_msgs.msg import Float64MultiArray
-from .APF_Settings import APFEnvironment
+from drone_package.APF_Settings import APFEnvironment
 
 logging.getLogger('dronekit').setLevel(logging.CRITICAL)
 
