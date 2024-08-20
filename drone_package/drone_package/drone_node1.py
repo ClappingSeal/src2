@@ -143,8 +143,9 @@ class DroneNode1(Node):
     # takeoff function
     def takeoff(self, h):
         print('start')
+        self.path_planning_timer = self.create_timer(self.timer_period, self.path_planning)
         while True:
-            self.path_planning_timer = self.create_timer(self.timer_period, self.path_planning)
+            print('a')
         
 
         
