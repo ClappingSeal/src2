@@ -57,6 +57,7 @@ class DroneNode1(Node):
         self.other_drones_positions = {}  # other drone pos
         self.goal_position = np.array([goal_x, goal_y, goal_z])  # value input from sys
         self.landing_threshold = 1.0
+        self.force = 50
 
     # for Publisher Node
     def publish_position(self):
@@ -136,7 +137,7 @@ class DroneNode1(Node):
         else:
             env = APFEnvironment(current_position)
             next_position = current_position + np.array(
-                env.apf(goal=self.goal_position, obs_pos=self.other_drones_positions)) * 50
+                env.apf(goal=self.goal_position, obs_pos=self.other_drones_positions)) * self.force
             self.goto(next_position[0], next_position[1], next_position[2])
 
     # takeoff function
