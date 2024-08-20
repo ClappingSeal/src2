@@ -99,34 +99,31 @@ class APFEnvironment:
 
     def apf_rev_rotate(self, goal, obs_pos):
         goal = np.array(goal)
-        apf_vector = self.att_force(goal) + self.rep_force(obs_pos)
+        apf_vector = self.apf(goal, obs_pos)
 
-        # XY plane rotation
-        angle_xy = np.pi / 2 - np.arctan2(apf_vector[1], apf_vector[0])
-        rotation_matrix_xy = np.array([
-            [np.cos(angle_xy), -np.sin(angle_xy), 0],
-            [np.sin(angle_xy), np.cos(angle_xy), 0],
+        # First rotation: Align apf_vector with the x-axis (rotation around z-axis)
+        angle_z = np.arctan2(apf_vector[1], apf_vector[0])
+        rotation_matrix_z = np.array([
+            [np.cos(angle_z), -np.sin(angle_z), 0],
+            [np.sin(angle_z), np.cos(angle_z), 0],
             [0, 0, 1]
         ])
 
-        # YZ plane rotation
-        angle_yz = np.pi / 2 - np.arctan2(apf_vector[2], apf_vector[1])
-        rotation_matrix_yz = np.array([
-            [1, 0, 0],
-            [0, np.cos(angle_yz), -np.sin(angle_yz)],
-            [0, np.sin(angle_yz), np.cos(angle_yz)]
-        ])
+        # Apply the rotation to the apf_vector
+        apf_vector_rotated = np.dot(rotation_matrix_z, apf_vector)
 
-        # ZX plane rotation
-        angle_zx = np.pi / 2 - np.arctan2(apf_vector[0], apf_vector[2])
-        rotation_matrix_zx = np.array([
-            [np.cos(angle_zx), 0, np.sin(angle_zx)],
+        # Second rotation: Align the rotated vector with the z-axis (rotation around y-axis)
+        angle_y = np.arctan2(apf_vector_rotated[2], apf_vector_rotated[0])
+        rotation_matrix_y = np.array([
+            [np.cos(angle_y), 0, np.sin(angle_y)],
             [0, 1, 0],
-            [-np.sin(angle_zx), 0, np.cos(angle_zx)]
+            [-np.sin(angle_y), 0, np.cos(angle_y)]
         ])
 
-        rotation_matrix = rotation_matrix_xy @ rotation_matrix_yz
+        # Combine the rotations
+        rotation_matrix = rotation_matrix_y @ rotation_matrix_z
 
+        # Apply the final rotation to the vectors
         rev_att_vector = self.att_force(goal)
         rev_rep_vector = self.rep_force(obs_pos)
         closest_obs_pos = self.closest_obs(obs_pos)
@@ -137,7 +134,6 @@ class APFEnvironment:
         if closest_obs_pos is not None:
             rev_closest_obs_pos = closest_obs_pos - self.pos
             rot_rev_closest_obs_pos = np.dot(rotation_matrix, rev_closest_obs_pos.T)
-            rot_rev_closest_obs_pos = 1 / rot_rev_closest_obs_pos
         else:
             rot_rev_closest_obs_pos = np.array([0, 0, 0])
 
@@ -145,34 +141,31 @@ class APFEnvironment:
 
     def apf_inverse_rotate(self, goal, obs_pos, b_vector):
         goal = np.array(goal)
-        apf_vector = self.att_force(goal) + self.rep_force(obs_pos)
+        apf_vector = self.apf(goal, obs_pos)
 
-        # XY plane rotation
-        angle_xy = np.pi / 2 - np.arctan2(apf_vector[1], apf_vector[0])
-        rotation_matrix_xy = np.array([
-            [np.cos(angle_xy), -np.sin(angle_xy), 0],
-            [np.sin(angle_xy), np.cos(angle_xy), 0],
+        # First rotation: Align apf_vector with the x-axis (rotation around z-axis)
+        angle_z = np.arctan2(apf_vector[1], apf_vector[0])
+        rotation_matrix_z = np.array([
+            [np.cos(angle_z), -np.sin(angle_z), 0],
+            [np.sin(angle_z), np.cos(angle_z), 0],
             [0, 0, 1]
         ])
 
-        # YZ plane rotation
-        angle_yz = np.pi / 2 - np.arctan2(apf_vector[2], apf_vector[1])
-        rotation_matrix_yz = np.array([
-            [1, 0, 0],
-            [0, np.cos(angle_yz), -np.sin(angle_yz)],
-            [0, np.sin(angle_yz), np.cos(angle_yz)]
-        ])
+        # Apply the rotation to the apf_vector
+        apf_vector_rotated = np.dot(rotation_matrix_z, apf_vector)
 
-        # ZX plane rotation
-        angle_zx = np.pi / 2 - np.arctan2(apf_vector[0], apf_vector[2])
-        rotation_matrix_zx = np.array([
-            [np.cos(angle_zx), 0, np.sin(angle_zx)],
+        # Second rotation: Align the rotated vector with the z-axis (rotation around y-axis)
+        angle_y = np.arctan2(apf_vector_rotated[2], apf_vector_rotated[0])
+        rotation_matrix_y = np.array([
+            [np.cos(angle_y), 0, np.sin(angle_y)],
             [0, 1, 0],
-            [-np.sin(angle_zx), 0, np.cos(angle_zx)]
+            [-np.sin(angle_y), 0, np.cos(angle_y)]
         ])
 
-        rotation_matrix = rotation_matrix_xy @ rotation_matrix_yz
+        # Combine the rotations
+        rotation_matrix = rotation_matrix_y @ rotation_matrix_z
 
+        # Apply the inverse rotation
         inverse_rotation_matrix = rotation_matrix.T
         inverse_rotated_b_vector = np.dot(inverse_rotation_matrix, b_vector)
 
@@ -196,6 +189,12 @@ class APFEnvironment:
 
         return total_force * 0.1
 
+
 # env = APFEnvironment([1, 1, 10])
 # print(env.apf([10, 0, 8], [[40, 1, 12], [10, 20, 14]]))
 # print(env.apf_rev_rotate([10, 0, 8], [[40, 1, 12], [10, 20, 14]]))
+# print(env.apf([10, 0, 8], []))
+
+# env = APFEnvironment(current_position)
+# next_position = current_postion + np.array(env.apf(self.goal_position, self.other_drones_positions))
+# self.goto(next_position[0], next_position[1], next_position[2])
