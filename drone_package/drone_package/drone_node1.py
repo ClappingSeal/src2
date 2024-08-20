@@ -138,6 +138,7 @@ class DroneNode1(Node):
             next_position = current_position + np.array(
                 env.apf(goal=self.goal_position, obs_pos=self.other_drones_positions))
             self.goto(next_position[0], next_position[1], next_position[2])
+            print(np.array(env.apf(goal=self.goal_position, obs_pos=self.other_drones_positions)))
 
     # takeoff function
     def takeoff(self, h):
