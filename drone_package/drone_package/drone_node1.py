@@ -47,7 +47,7 @@ class DroneNode1(Node):
         self.land_service = self.create_service(LAND, 'land1', self.land_callback)
 
         # Spinning
-        self.timer_period = 0.1  # seconds
+        self.timer_period = 0.01  # seconds
         self.create_timer(self.timer_period, self.publish_position)
         self.path_planning_timer = None  # path planning not start before takeoff
 
