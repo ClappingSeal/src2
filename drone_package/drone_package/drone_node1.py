@@ -63,13 +63,10 @@ class DroneNode1(Node):
     def publish_position(self):
         location = self.vehicle.location.global_relative_frame
 
-        start_time = time.time()
         self.position.n = self.drone_num
         self.position.x = location.lat
         self.position.y = location.lon
         self.position.z = location.alt
-        end_time = time.time()
-        print('total time : ',end_time-start_time)
         
         self.publisher.publish(self.position)
 
