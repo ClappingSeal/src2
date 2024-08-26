@@ -64,6 +64,14 @@ class DroneNode1(Node):
         model_path = '/home/qwer/ros2_study/src2/drone_package/drone_package/td3_comp_robot.zip'
         self.model = TD3.load(model_path)
 
+        ### delete ----------------------------
+        while True:
+            start_time = time.time()
+            self.path_planning()
+            end_time = time.time()
+            print(end_time - start_time)
+         ### delete ----------------------------
+
 
     # for Publisher Node
     def publish_position(self):
