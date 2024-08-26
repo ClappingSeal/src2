@@ -59,14 +59,6 @@ class DroneNode1(Node):
         self.landing_threshold = 1.0
         self.force = 50
 
-        ### delete ----------------------------
-        while True:
-            start_time = time.time()
-            self.path_planning()
-            end_time = time.time()
-            print(end_time - start_time)
-         ### delete ----------------------------
-
     # for Publisher Node
     def publish_position(self):
         location = self.vehicle.location.global_relative_frame
