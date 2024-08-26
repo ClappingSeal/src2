@@ -8,6 +8,7 @@ import csv
 
 class PosSubscriber(Node):
     def __init__(self):
+        print('abcd')
         super().__init__('pos_sub')
 
         self.pub = self.create_publisher(Float64MultiArray, 'drones_info', 10)
