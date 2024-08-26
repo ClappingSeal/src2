@@ -47,7 +47,7 @@ class DroneNode1(Node):
         self.land_service = self.create_service(LAND, 'land1', self.land_callback)
 
         # Spinning
-        self.timer_period = 0.1  # seconds
+        self.timer_period = 0.01  # seconds
         self.create_timer(self.timer_period, self.publish_position)
         self.path_planning_timer = None  # path planning not start before takeoff
 
@@ -58,6 +58,14 @@ class DroneNode1(Node):
         self.goal_position = np.array([goal_x, goal_y, goal_z])  # value input from sys
         self.landing_threshold = 1.0
         self.force = 50
+
+        ### delete ----------------------------
+        while True:
+            start_time = time.time()
+            self.path_planning()
+            end_time = time.time()
+            print(end_time - start_time)
+         ### delete ----------------------------
 
     # for Publisher Node
     def publish_position(self):
