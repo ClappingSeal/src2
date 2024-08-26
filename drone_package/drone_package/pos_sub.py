@@ -8,7 +8,6 @@ import csv
 
 class PosSubscriber(Node):
     def __init__(self):
-        print('abcd')
         super().__init__('pos_sub')
 
         self.pub = self.create_publisher(Float64MultiArray, 'drones_info', 10)
@@ -51,7 +50,7 @@ class PosSubscriber(Node):
             self.data_list.append(new_row)
         else:
             existing_time_entry.update({f'x{drone_id}': x, f'y{drone_id}': y, f'z{drone_id}': msg.z})
-
+        print('abcd')
         print(data.data)
 
 
