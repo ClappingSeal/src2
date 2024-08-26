@@ -50,7 +50,6 @@ class PosSubscriber(Node):
             self.data_list.append(new_row)
         else:
             existing_time_entry.update({f'x{drone_id}': x, f'y{drone_id}': y, f'z{drone_id}': msg.z})
-        print('abcd')
         print(data.data)
 
 
